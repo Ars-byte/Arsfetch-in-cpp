@@ -34,7 +34,7 @@ void portada() {
 string getUptime() {
     struct sysinfo info;
     if (sysinfo(&info) != 0) {
-        return "No disponible";
+        return "Not avaible";
     }
     long seconds = info.uptime;
     const int day_in_seconds = 86400;
@@ -48,10 +48,10 @@ string getUptime() {
     seconds %= 60;
     
     stringstream result;
-    if (days > 0) result << days << " dias, ";
-    if (hours > 0) result << hours << " horas, ";
-    if (minutes > 0) result << minutes << " minutos, ";
-    result << seconds << " segundos";
+    if (days > 0) result << days << " days, ";
+    if (hours > 0) result << hours << " hours, ";
+    if (minutes > 0) result << minutes << " minutes, ";
+    result << seconds << " seconds";
     
     return result.str();
 }
@@ -71,7 +71,7 @@ string find_value_in_proc(const string& file_path, const string& key_name) {
 
 string getCpuInfo() {
     string info = find_value_in_proc("/proc/cpuinfo", "model name");
-    return info.empty() ? "Desconocido" : info;
+    return info.empty() ? "Unknown" : info;
 }
 
 string getShell() {
@@ -81,7 +81,7 @@ string getShell() {
     if (const struct passwd* pw = getpwuid(getuid())) {
         if (pw->pw_shell) return pw->pw_shell;
     }
-    return "Desconocido";
+    return "Unknown";
 }
 
 
@@ -130,7 +130,7 @@ string getCpuTemperature() {
             }
         }
     }
-    return "No disponible";
+    return "Not avaible";
 }
 
 string getBatteryInfo() {
@@ -156,7 +156,7 @@ string getBatteryInfo() {
             }
         }
     }
-    return "No disponible";
+    return "Not avaible";
 }
 
 
@@ -169,21 +169,21 @@ int main() {
     const auto now = chrono::system_clock::now();
     const time_t now_time = chrono::system_clock::to_time_t(now);
     const tm local_tm = *localtime(&now_time);
-    cout << "Fecha             : " << put_time(&local_tm, "%Y-%m-%d %H:%M:%S") << endl;
+    cout << "            : " << put_time(&local_tm, "%Y-%m-%d %H:%M:%S") << endl;
 
     struct utsname sysinfo_data;
     if (uname(&sysinfo_data) == 0) {
-        cout << "Sistema Operativo : " << sysinfo_data.sysname << " " << sysinfo_data.release << endl;
-        cout << "Nombre del Sistema: " << sysinfo_data.nodename << endl;
-        cout << "Arquitectura      : " << sysinfo_data.machine << endl;
+        cout << "Operative system:" << sysinfo_data.sysname << " " << sysinfo_data.release << endl;
+        cout << "Name of system: " << sysinfo_data.nodename << endl;
+        cout << "Architecture: " << sysinfo_data.machine << endl;
     }
 
     const auto [ram_total, ram_usage] = getMemoryInfo();
-    cout << "Memoria RAM       : " << fixed << setprecision(1) << ram_usage << "% de " << setprecision(2) << ram_total << " GB" << endl;
-    cout << "Procesador        : " << getCpuInfo() << endl;
-    cout << "Temperatura CPU   : " << getCpuTemperature() << endl;
+    cout << "RAM usage       : " << fixed << setprecision(1) << ram_usage << "% de " << setprecision(2) << ram_total << " GB" << endl;
+    cout << "Processor        : " << getCpuInfo() << endl;
+    cout << "Temperature CPU   : " << getCpuTemperature() << endl;
     
-    cout << "Bateria           : " << getBatteryInfo() << endl;
+    cout << "Battery           : " << getBatteryInfo() << endl;
     cout << "Shell             : " << getShell() << endl;
 
     cout << "\nBye bye :)" << endl;
