@@ -1,9 +1,9 @@
 # Arsfetch-in-cpp
-fetch simple con cpp para linux.
+My fetch in cpp :b
 
-## Dependencias
+## Dependences
 
-g++ o algun compilador para c++
+sudo apt install g++ 
 
 ## COMPILATION
 
